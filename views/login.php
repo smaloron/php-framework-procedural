@@ -9,14 +9,14 @@
     <?php endif; ?>
 
     <form method="post">
-        <div>
-            <label>Identifiant</label>
-            <input type="text" name="login">
+        <div class="mb-3">
+            <label class="form-label">Identifiant</label>
+            <input type="text" name="login" class="form-control">
         </div>
-        <div>
-            <label>Mot de passe</label>
-            <input type="password" name="pwd">
+        <div class="mb-3">
+            <label class="form-label">Mot de passe</label>
+            <input type="password" name="pwd" class="form-control">
         </div>
 
-        <button type="submit" name="submit">Valider</button>
+        <button type="submit" name="submit" class="btn btn-primary mt-2">Valider</button>
     </form>
