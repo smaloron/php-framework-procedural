@@ -7,7 +7,7 @@
  * @return void
  */
 function addFlash(string $message): void {
-
+    $_SESSION["flash"] = $message;
 }
 
 /**
@@ -16,7 +16,9 @@ function addFlash(string $message): void {
  * @return string
  */
 function getFlash(): string {
-
+    $message = $_SESSION["flash"];
+    unset($_SESSION["flash"]);
+    return $message;
 }
 
 /**
@@ -25,5 +27,5 @@ function getFlash(): string {
  * @return boolean
  */
 function hasFlash(): bool {
-
+    return isset($_SESSION["flash"]);
 }
