@@ -1,0 +1,19 @@
+[
+    {"login": "user", "password": "123"},
+    {
+        "login": "Ada",
+        "password": "123"
+    },
+    {
+        "login": "Turing",
+        "password": "123"
+    },
+    {
+        "login": "Brahé",
+        "password": "123"
+    },
+    {
+        "login": "Socrate",
+        "password": "123"
+    }
+]

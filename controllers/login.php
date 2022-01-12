@@ -1,4 +1,5 @@
 <?php
+require "models/user.php";
 
 $isPosted = filter_has_var(INPUT_POST, "submit");
 $errors = [];
@@ -15,7 +16,7 @@ if($isPosted){
     }
 
     if(count($errors) == 0){
-        if($login == "user" && $password == "123"){
+        if(authenticateUser($login, $password)){
             $_SESSION["user"] = $login;
             addFlash("Vous êtes connecté");
             $redirect = $_SESSION["redirectPage"] ?? "home";
@@ -30,6 +31,7 @@ if($isPosted){
 
 echo render($controller, [
     "title" => "login",
-    "hasErrors" => count($errors) > 0
+    "hasErrors" => count($errors) > 0,
+    "errors" => $errors
 ]);
 
