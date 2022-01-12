@@ -11,9 +11,9 @@
     <nav>
          <?php if (isset($_SESSION['user'])): ?>
             <h3>Bonjour <?=$_SESSION['user']?></h3>
-            <a href="/index.php?page=logout">déconnexion</a>
+            <a href="<?=getLinkToRoute("logout")?>">déconnexion</a>
         <?php else: ?>
-            <a href="/index.php?page=login">Connexion</a>
+            <a href="<?=getLinkToRoute("login")?>">Connexion</a>
         <?php endif;?>
     </nav>
    

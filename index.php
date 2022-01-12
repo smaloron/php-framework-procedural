@@ -21,7 +21,8 @@ $securedRoutes = [
 if(in_array($page, $securedRoutes ) && ! isset($_SESSION["user"])){
     addFlash("Vous devez être authentifié pour accèder à la page $page");
     $_SESSION["redirectPage"] = $page;
-    header("location:index.php?page=login");
+
+    header("location:". getLinkToRoute('login'));
     exit;
 }
 

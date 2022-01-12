@@ -20,7 +20,7 @@ if($isPosted){
             addFlash("Vous êtes connecté");
             $redirect = $_SESSION["redirectPage"] ?? "home";
             unset($_SESSION["redirectPage"]);
-            header("location:index.php?page=$redirect");
+            header("location:". getLinkToRoute($redirect));
             exit;
         } else {
             array_push($errors, "Vos infos de connection sont incorrectes");
