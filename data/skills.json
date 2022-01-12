@@ -1,15 +1,1 @@
-[
-    {"code": 1, "label": "Javascript"},
-    {
-        "code": 2,
-        "label": "Python"
-    },
-    {
-        "code": 3,
-        "label": "PHP"
-    },
-    {
-        "code": 4,
-        "label": "Angular"
-    }
-]
+[{"code":1,"label":"Javascript"},{"code":2,"label":"Python"},{"code":3,"label":"PHP"},{"code":4,"label":"Angular"},{"label":"Java","code":"61deb5e884f5c"},{"label":"Dart","code":"61deb5f223b06"},{"label":"C","code":"61deb606e71bf"},{"label":"C++","code":"61deb60be743b"},{"label":"Haskell","code":"61deb63993218"},{"label":"Haskell","code":"61deb78160573"}]
