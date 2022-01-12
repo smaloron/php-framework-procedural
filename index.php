@@ -4,6 +4,7 @@ session_regenerate_id(true);
 
 // inclusion des bibliothèques
 require "lib/flash.php";
+require "lib/framework.php";
 
 // Récupération du nom du contrôleur
 // par défaut "intro"
@@ -31,17 +32,9 @@ $routes = [
     "test-lib" => "include_tools"
 ];
 
-// Résolution du routage
-if(array_key_exists($page, $routes)){
-    $controller = $routes[$page];
-} else {
-    $controller = $page;
-}
-
-// Gestion d'un contrôleur dont le fichier n'existe pas
-$controllerPath = "controllers/$controller.php";
-if(! file_exists($controllerPath)){
-    $controllerPath = "controllers/not_found.php";
-}
+// Gestion du routage
+// Cette fonction nous retourne deux variables
+// $controller et $controllerPath
+extract(getRouteInfos($page, $routes), EXTR_OVERWRITE);
 
 require $controllerPath;
