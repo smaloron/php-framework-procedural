@@ -28,11 +28,8 @@ if($isPosted){
     }
 }
 
-$hasErrors = count($errors) > 0;
-$title = "login";
-
-// Affichage de la vue
-$template = "$controller.php";
-// Affichage de la vue
-require "views/gabarit.php";
+echo render($controller, [
+    "title" => "login",
+    "hasErrors" => count($errors) > 0
+]);
 
