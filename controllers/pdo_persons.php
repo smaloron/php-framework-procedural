@@ -6,6 +6,17 @@ $db = new PDO(
     ""
 );
 
+// Récupération des paramètres du script transmis dans l'url
+$id = (int) filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
+$action = filter_input(INPUT_GET, "action", FILTER_SANITIZE_STRING);
+
+// Gestion de la suppression
+if($id && $action === "delete"){
+    $sql = "DELETE FROM persons WHERE id=$id";
+    $db->exec($sql);
+    header("Location: ". getLinkToRoute("pdo_persons"));
+}
+
 // Requête pour lister toutes les personnes
 $result = $db->query("SELECT * FROM persons");
 

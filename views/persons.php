@@ -12,7 +12,13 @@
             <tr>
                 <td><?= $person->first_name ?></td>
                 <td><?= $person->last_name ?></td>
-                <td></td>
+                <td>
+                    <a href="<?=getLinkToRoute("pdo_persons", ["id"=>       $person->id, "action"=>"delete"])?>
+                    " class="btn btn-warning" 
+                    onclick="return confirm('Voulez-vous supprimer cette personne ?')">
+                        Supprimer
+                    </a>
+                </td>
             </tr>
         <?php endforeach; ?>
     </tbody>
