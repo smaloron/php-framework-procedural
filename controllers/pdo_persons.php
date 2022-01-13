@@ -1,10 +1,6 @@
 <?php
 // Connexion au serveur de BD
-$db = new PDO(
-    "mysql:host=127.0.0.1;dbname=formation_cda_2022;charset=utf8",
-    "root",
-    ""
-);
+$db = getPDO();
 
 // Récupération des paramètres du script transmis dans l'url
 $id = (int) filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
@@ -32,6 +28,7 @@ if($isPosted){
         $statement = $db->prepare($sql);
         $statement->execute($queryParams);
         header("Location: " . getLinkToRoute("pdo_persons"));
+        exit;
     }
 }
 
@@ -40,6 +37,7 @@ if($id && $action === "delete"){
     $sql = "DELETE FROM persons WHERE id=$id";
     $db->exec($sql);
     header("Location: ". getLinkToRoute("pdo_persons"));
+    exit;
 }
 
 // En cas de modification, récupération des infos
