@@ -1,4 +1,6 @@
 <?php
+require "models/person.php";
+
 // Connexion au serveur de BD
 $db = getPDO();
 
@@ -13,20 +15,10 @@ if($isPosted){
     // Récupération des données
     $firstName = filter_input(INPUT_POST, "first_name", FILTER_SANITIZE_STRING);
     $lastName = filter_input(INPUT_POST, "last_name", FILTER_SANITIZE_STRING);
-    $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
+    $id = (int) filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
 
     if(!empty(trim($lastName)) && ! empty(trim($firstName))){
-        $queryParams = [$firstName, $lastName];
-
-        if(empty($id)){
-            $sql = "INSERT INTO persons (first_name, last_name) VALUES (?, ?)";
-        } else {
-            $sql = "UPDATE persons SET first_name=?, last_name=? WHERE id=?";
-            $queryParams[] = $id;
-        }
-        
-        $statement = $db->prepare($sql);
-        $statement->execute($queryParams);
+        savePerson($id, $firstName, $lastName);
         header("Location: " . getLinkToRoute("pdo_persons"));
         exit;
     }
@@ -34,34 +26,21 @@ if($isPosted){
 
 // Gestion de la suppression
 if($id && $action === "delete"){
-    $sql = "DELETE FROM persons WHERE id=$id";
-    $db->exec($sql);
+    deleteOnePersonById($id);
     header("Location: ". getLinkToRoute("pdo_persons"));
     exit;
 }
 
 // En cas de modification, récupération des infos
 // de la personne à modifier
+$currentPerson = getEmptyPerson();
 if($id && $action === "update"){
-    $sql = "SELECT * FROM persons WHERE id=$id";
-    $result = $db->query($sql);
-    $currentPerson = $result->fetch(PDO::FETCH_OBJ);
-} else {
-    $currentPerson = new StdClass();
-    $currentPerson->first_name = "";
-    $currentPerson->last_name = "";
-    $currentPerson->id = null;
+    $currentPerson = getOnePersonById($id);
 }
-
-// Requête pour lister toutes les personnes
-$result = $db->query("SELECT * FROM persons");
-
-$data = $result->fetchAll(PDO::FETCH_OBJ);
-
 
 // Affichage de la vue
 echo render("persons", [
-    "personList" => $data,
+    "personList" => findAllPersons(),
     "currentPerson" => $currentPerson
 ]);
 
