@@ -95,3 +95,5 @@ SELECT * FROM livres_simples WHERE langue IN ('Italien', 'Castillan');
 
 SELECT * FROM livres_simples WHERE langue != 'Anglais' AND prix < 12
 ORDER BY langue, genre LIMIT 3 OFFSET 6;
+
+SELECT * FROM livres_simples
