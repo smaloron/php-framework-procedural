@@ -14,6 +14,7 @@
             <a href="<?=getLinkToRoute("logout")?>">déconnexion</a>
         <?php else: ?>
             <a href="<?=getLinkToRoute("login")?>">Connexion</a>
+            <a href="<?=getLinkToRoute("register")?>">Inscription</a>
         <?php endif;?>
     </nav>
    

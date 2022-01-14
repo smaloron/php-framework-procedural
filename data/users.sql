@@ -1,0 +1,9 @@
+USE formation_cda_2022;
+
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE IF NOT EXISTS users(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    user_login VARCHAR(20) NOT NULL UNIQUE,
+    user_password VARCHAR(128) NOT NULL
+);
