@@ -4,8 +4,8 @@ function countBooks(string $search){
     $searchQuery = "";
     $params = [];
     if(! empty($search)){
-        $searchQuery = "WHERE auteur= ? OR genre= ? OR editeur= ?";
-        $params = [$search, $search, $search];
+        $searchQuery = "WHERE auteur= :search OR genre= :search OR editeur= :search";
+        $params = ["search" => $search];
     } 
 
     $sql = "SELECT COUNT(*) as nb FROM livres_simples $searchQuery ";
@@ -27,10 +27,10 @@ function findBooks(array $pagination, string $search){
     
     if(! empty($search)){
         $sql .= "WHERE
-                auteur= ? OR genre= ? OR editeur=?";
+                auteur= :search OR genre= :search OR editeur= :search";
     }
 
-    $sql .= " LIMIT ? OFFSET ?";
+    $sql .= " LIMIT :limit OFFSET :offset";
     
 
     $offset = ($pagination["currentPage"] -1) * $pagination["numberPerPage"];
@@ -38,15 +38,10 @@ function findBooks(array $pagination, string $search){
 
     $statement = getPDO()->prepare($sql);
 
+    $statement->bindValue("limit", $limit, PDO::PARAM_INT);
+    $statement->bindValue("offset", $offset, PDO::PARAM_INT);
     if(! empty($search)){
-        $statement->bindValue(1, $search, PDO::PARAM_STR);
-        $statement->bindValue(2, $search, PDO::PARAM_STR);
-        $statement->bindValue(3, $search, PDO::PARAM_STR);
-        $statement->bindValue(4, $limit, PDO::PARAM_INT);
-        $statement->bindValue(5, $offset, PDO::PARAM_INT);
-    } else {
-        $statement->bindValue(1, $limit, PDO::PARAM_INT);
-        $statement->bindValue(2, $offset, PDO::PARAM_INT);
+        $statement->bindValue("search", $search, PDO::PARAM_STR);
     }
 
 
