@@ -1,7 +1,7 @@
 <?php
 require "models/books.php";
 
-$page = (int) filter_input(INPUT_GET, "currentPage", FILTER_SANITIZE_NUMBER_INT) ?? 1;
+$page = filter_input(INPUT_GET, "currentPage", FILTER_SANITIZE_NUMBER_INT) ?? 1;
 
 $search = filter_input(INPUT_GET, "search", FILTER_SANITIZE_STRING) ?? "";
 

@@ -127,8 +127,66 @@ CREATE TABLE IF NOT EXISTS langues(
     PRIMARY KEY (`id`)
 );
 
+TRUNCATE langues;
+INSERT INTO langues (langue)  
+(SELECT distinct langue FROM livres_simples);
+
+TRUNCATE genres;
+INSERT INTO genres (genre)  
+(SELECT distinct genre FROM livres_simples);
+
+TRUNCATE editeurs;
+INSERT INTO editeurs (nom)  
+(SELECT distinct editeur FROM livres_simples);
+
+TRUNCATE auteurs;
+INSERT INTO auteurs (nom, prenom, nationalite_auteur)  
+(SELECT distinct auteur_nom, auteur_prenom, nationalite_auteur FROM livres_simples);
+
+TRUNCATE livres;
+INSERT INTO livres 
+(titre, prix, date_publication, id_auteur, id_editeur, id_genre, id_langue)
+(
+    SELECT 
+    titre, 
+    prix, 
+    date_publication, 
+    a.id as auteur_id,
+    e.id as editeur_id,
+    g.id as genre_id,
+    l.id as langue_id
+    FROM livres_simples as ls
+    JOIN auteurs as a ON a.nom = ls.auteur_noms
+    JOIN editeurs as e ON e.nom = ls.editeur
+    JOIN genres as g ON g.genre = ls.genre
+    JOIN langues as l ON l.langue = ls.langue
+);
+
 SET foreign_key_checks = 1;
 
+-- Requête avec jointures qui affiche toutes les infos des livres
+CREATE OR REPLACE VIEW vue_livres AS
+SELECT 
+l.id, titre, prix, 
+DATE_FORMAT(date_publication, '%d/%m/%Y') as date_edition,
+FLOOR(DATEDIFF(NOW(), date_publication)/365.25) as age_du_livre,
+a.nom, a.prenom, 
+CONCAT_WS(' ', a.prenom, a.nom) as auteur,
+a.nationalite_auteur,
+e.nom as editeur,
+g.genre, lg.langue
+FROM livres as l
+JOIN auteurs as a ON a.id = l.id_auteur
+JOIN editeurs as e ON e.id = l.id_editeur
+JOIN genres as g ON g.id = l.id_genre
+JOIN langues as lg ON lg.id = l.id_langue;
+
+SELECT * FROM vue_livres ORDER BY RAND() LIMIT 1;
+
+-- compte du nombre de livres par année de publication
+SELECT YEAR(date_publication) as annee, COUNT(*) as nb
+FROM livres
+GROUP BY annee;
 
 -- Les livres édités pas Hachette
 SELECT * FROM livres_simples WHERE editeur = 'Hachette';
