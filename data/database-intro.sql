@@ -293,3 +293,27 @@ SELECT o.order_date, o.amount, p.first_name, p.last_name, a.city
 FROM orders as o
 JOIN persons as p ON o.client_id = p.id
 JOIN addresses as a ON p.address_id = a.id;
+
+-- **************************
+-- * Relations de plusieurs à plusieurs
+-- **************************
+
+CREATE TABLE IF NOT EXISTS teams (
+    id SMALLINT UNSIGNED PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS team_members(
+    team_id SMALLINT UNSIGNED,
+    person_id INT UNSIGNED,
+    role VARCHAR(30) NOT NULL,
+    PRIMARY KEY (team_id, person_id)
+);
+
+INSERT INTO teams (name) VALUES ('CDA');
+
+INSERT INTO team_members (team_id, person_id, role) VALUES
+(1, 3, 'membre'),
+(1, 9, 'membre'),
+(1, 12, 'membre'),
+(1, 15, 'Chef');
